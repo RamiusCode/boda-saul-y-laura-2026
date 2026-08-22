@@ -20,7 +20,7 @@
 
                 <!-- CARD PRINCIPAL -->
                 <div
-                    class="relative rounded-lg shadow-xl overflow-hidden bg-[#5E6B4A]"
+                    class="relative rounded-2xl shadow-xl overflow-hidden bg-[#5E6B4A]"
                     id="card-principal"
                 >
                     <!-- IMAGEN DE FONDO -->
@@ -59,8 +59,8 @@
                                     <p
                                         class="font-cormorant-sc text-lg leading-relaxed text-white"
                                     >
-                                        Jacinto Zurita V.<br />
-                                        Felicidad Quiroga L.
+                                        Jacinto Zurita Vallejos<br />
+                                        Felicidad Luizaga Ledezma (+)
                                     </p>
                                 </div>
                             </div>
@@ -95,8 +95,8 @@
                                     <p
                                         class="font-cormorant-sc text-lg leading-relaxed text-white"
                                     >
-                                        Nelson O. Camacho P.<br />
-                                        Olimpia Gurman Cossio
+                                        Nelson O. Camacho Pinto<br />
+                                       Olimpia Guzman Cossio
                                     </p>
                                 </div>
                             </div>
@@ -108,6 +108,7 @@
                     src="/imagenes/floresverde.png"
                     alt=""
                     aria-hidden="true"
+                    id="flor-izquierda-padres"
                     class="pointer-events-none select-none absolute w-[42%] sm:w-[38%] z-10"
                     style="top: -10%; left: -20%;"
                 />
@@ -117,6 +118,7 @@
                     src="/imagenes/floresverde.png"
                     alt=""
                     aria-hidden="true"
+                    id="flor-derecha-padres"
                     class="pointer-events-none select-none absolute w-[42%] sm:w-[38%] z-10 rotate-180"
                     style="bottom: -10%; right: -20%;"
                 />
@@ -179,60 +181,117 @@
                     },
                     0, // Empieza en el tiempo 0
                 )
+                // ✦ Título: desciende suave y se asienta
                 .fromTo(
                     "#titulo-padres",
                     {
                         opacity: 0,
-                        y: -30,
+                        y: -28,
+                        scale: 0.94,
                     },
                     {
                         opacity: 1,
                         y: 0,
-                        duration: 1,
-                        ease: "power2.out",
+                        scale: 1,
+                        duration: 1.4,
+                        ease: "power3.out",
                     },
-                    0, // Empieza en el tiempo 0
+                    0.45,
                 )
-                .fromTo(
-                    "#seccion-novia",
-                    {
-                        opacity: 0,
-                        x: 30,
-                    },
-                    {
-                        opacity: 1,
-                        x: 0,
-                        duration: 1,
-                        ease: "power2.out",
-                    },
-                    0, // Empieza en el tiempo 0
-                )
+                // 👨 Padres del novio: entran desde la izquierda
                 .fromTo(
                     "#seccion-novio",
                     {
                         opacity: 0,
-                        x: -30,
+                        x: -34,
                     },
                     {
                         opacity: 1,
                         x: 0,
-                        duration: 1,
-                        ease: "power2.out",
+                        duration: 1.3,
+                        ease: "power3.out",
                     },
-                    0, // Empieza en el tiempo 0
+                    0.75,
                 )
+                // 👩 Padres de la novia: entran desde la derecha
+                .fromTo(
+                    "#seccion-novia",
+                    {
+                        opacity: 0,
+                        x: 34,
+                    },
+                    {
+                        opacity: 1,
+                        x: 0,
+                        duration: 1.3,
+                        ease: "power3.out",
+                    },
+                    0.9,
+                )
+                // ✦ Separador: se abre desde el centro
                 .fromTo(
                     "#separador-padres",
                     {
                         opacity: 0,
+                        scale: 0.75,
                     },
                     {
                         opacity: 1,
-                        duration: 1.2,
-                        ease: "power2.out",
+                        scale: 1,
+                        duration: 1.4,
+                        ease: "power3.out",
                     },
-                    0.2,
+                    0.6,
                 );
+
+            // 🌿 RAMA IZQUIERDA: entra deslizándose desde la izquierda
+            gsap.fromTo(
+                "#flor-izquierda-padres",
+                {
+                    opacity: 0,
+                    x: -90,
+                    scale: 0.92,
+                },
+                {
+                    opacity: 1,
+                    x: 0,
+                    scale: 1,
+                    duration: 1.6,
+                    delay: 0.35,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: "#card-padres",
+                        start: "top 80%",
+                        toggleActions: "play none none reset",
+                    },
+                },
+            );
+
+            // 🌿 RAMA DERECHA: entra deslizándose desde la derecha
+            // (rotation: 180 se mantiene fija para conservar la simetría)
+            gsap.fromTo(
+                "#flor-derecha-padres",
+                {
+                    opacity: 0,
+                    x: 90,
+                    scale: 0.92,
+                    rotation: 180,
+                },
+                {
+                    opacity: 1,
+                    x: 0,
+                    scale: 1,
+                    rotation: 180,
+                    duration: 1.6,
+                    delay: 0.35,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: "#card-padres",
+                        start: "top 80%",
+                        toggleActions: "play none none reset",
+                    },
+                },
+            );
         });
     }
 </script>

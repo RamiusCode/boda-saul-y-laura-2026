@@ -3,7 +3,7 @@
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- 📇 CARD DE ITINERARIO -->
         <div class="flex justify-center">
-            <div class="relative w-[280px]" id="card-itinerario">
+            <div class="relative w-[300px]" id="card-itinerario">
                 <!-- BOTÓN DECORATIVO SUPERIOR -->
                 <div
                     class="absolute z-20"
@@ -20,7 +20,7 @@
 
                 <!-- CARD PRINCIPAL -->
                 <div
-                    class="relative rounded-[40px] shadow-xl overflow-hidden bg-[#f5f5f5]"
+                    class="relative rounded-2xl shadow-xl overflow-hidden bg-[#f5f5f5]"
                     id="card-principal-itinerario"
                 >
                     <!-- IMAGEN DE FONDO -->
@@ -163,8 +163,9 @@
                     src="/imagenes/floresverde.png"
                     alt=""
                     aria-hidden="true"
+                    id="flor-izquierda-itinerario"
                     class="pointer-events-none select-none absolute w-[42%] sm:w-[38%] z-10"
-                    style="top: -10%; left: -20%;"
+                    style="top: -4%; left: -20%;"
                 />
 
                 <!-- 🌿 RAMA INFERIOR DERECHA (simetría de 180°) -->
@@ -172,8 +173,9 @@
                     src="/imagenes/floresverde.png"
                     alt=""
                     aria-hidden="true"
+                    id="flor-derecha-itinerario"
                     class="pointer-events-none select-none absolute w-[42%] sm:w-[38%] z-10 rotate-180"
-                    style="bottom: -10%; right: -20%;"
+                    style="bottom: -4%; right: -20%;"
                 />
 
             </div>
@@ -246,27 +248,26 @@
                 },
             );
 
-            // Animación del título
-            gsap.fromTo(
+            // ✨ ENTRADA ESCALONADA: cada elemento con su propio matiz,
+            // solapados entre sí para que se lea como un solo movimiento.
+            const tlItinerario = gsap.timeline({
+                defaults: { ease: "power3.out" },
+                scrollTrigger: {
+                    trigger: "#card-itinerario",
+                    start: "top 80%",
+                    toggleActions: "play none none reset",
+                },
+            });
+
+            // Título: desciende suave y se asienta
+            tlItinerario.fromTo(
                 "#titulo-itinerario",
-                {
-                    opacity: 0,
-                    y: -20,
-                },
-                {
-                    opacity: 1,
-                    y: 0,
-                    duration: 0.8,
-                    ease: "power2.out",
-                    scrollTrigger: {
-                        trigger: "#card-itinerario",
-                        start: "top 80%",
-                        toggleActions: "play none none reset",
-                    },
-                },
+                { opacity: 0, y: -28, scale: 0.94 },
+                { opacity: 1, y: 0, scale: 1, duration: 1.4 },
+                0.45,
             );
 
-            // Animación de cada evento
+            // Cada evento: el icono crece y el texto se desliza desde la izquierda
             const eventos = [
                 "#evento-1",
                 "#evento-2",
@@ -276,26 +277,77 @@
             ];
 
             eventos.forEach((evento, index) => {
-                gsap.fromTo(
-                    evento,
-                    {
-                        opacity: 0,
-                        x: -30,
-                    },
-                    {
-                        opacity: 1,
-                        x: 0,
-                        duration: 0.6,
-                        ease: "power2.out",
-                        delay: index * 0.1,
-                        scrollTrigger: {
-                            trigger: "#card-itinerario",
-                            start: "top 80%",
-                            toggleActions: "play none none reset",
+                const t = 0.7 + index * 0.14;
+
+                tlItinerario
+                    .fromTo(
+                        `${evento} img`,
+                        { opacity: 0, scale: 0.55, rotation: -8 },
+                        {
+                            opacity: 1,
+                            scale: 1,
+                            rotation: 0,
+                            duration: 1.2,
+                            ease: "back.out(1.4)",
                         },
-                    },
-                );
+                        t,
+                    )
+                    .fromTo(
+                        `${evento} > div:last-child`,
+                        { opacity: 0, x: -26 },
+                        { opacity: 1, x: 0, duration: 1.2 },
+                        t + 0.06,
+                    );
             });
+
+            // 🌿 RAMA IZQUIERDA: entra deslizándose desde la izquierda
+            gsap.fromTo(
+                "#flor-izquierda-itinerario",
+                {
+                    opacity: 0,
+                    x: -90,
+                    scale: 0.92,
+                },
+                {
+                    opacity: 1,
+                    x: 0,
+                    scale: 1,
+                    duration: 1.6,
+                    delay: 0.35,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: "#card-itinerario",
+                        start: "top 80%",
+                        toggleActions: "play none none reset",
+                    },
+                },
+            );
+
+            // 🌿 RAMA DERECHA: entra deslizándose desde la derecha
+            // (rotation: 180 se mantiene fija para conservar la simetría)
+            gsap.fromTo(
+                "#flor-derecha-itinerario",
+                {
+                    opacity: 0,
+                    x: 90,
+                    scale: 0.92,
+                    rotation: 180,
+                },
+                {
+                    opacity: 1,
+                    x: 0,
+                    scale: 1,
+                    rotation: 180,
+                    duration: 1.6,
+                    delay: 0.35,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: "#card-itinerario",
+                        start: "top 80%",
+                        toggleActions: "play none none reset",
+                    },
+                },
+            );
         });
     }
 </script>

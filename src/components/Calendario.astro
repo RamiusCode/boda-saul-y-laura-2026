@@ -169,10 +169,14 @@
             });
             tl.to("#boton-decorativo-cal", { opacity: 1, scale: 1, rotation: 0, duration: 1, ease: "back.out(1.7)" }, 0)
               .to("#card-principal-cal", { opacity: 1, y: 0, scale: 1, duration: 1, ease: "power3.out" }, 0)
-              .to("#titulo-calendario", { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" }, 0.2)
-              .to("#seccion-mes", { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 0.3)
-              .to("#seccion-dias-semana", { opacity: 1, duration: 0.4 }, 0.4)
-              .to(".dia-cal", { opacity: 1, scale: 1, duration: 0.3, stagger: 0.02, ease: "back.out(1.2)" }, 0.5);
+              // ✦ Título: desciende suave y se asienta
+              .to("#titulo-calendario", { opacity: 1, y: 0, duration: 1.4, ease: "power3.out" }, 0.45)
+              // 📆 Mes y año
+              .to("#seccion-mes", { opacity: 1, y: 0, duration: 1.2, ease: "power3.out" }, 0.7)
+              // 🔤 Días de la semana
+              .to("#seccion-dias-semana", { opacity: 1, duration: 1.1, ease: "power3.out" }, 0.85)
+              // 🔢 Días del mes: cascada breve, cierra la secuencia
+              .to(".dia-cal", { opacity: 1, scale: 1, duration: 0.8, stagger: 0.015, ease: "back.out(1.4)" }, 1);
 
             gsap.to("#dia-especial-cal", {
                 scale: 1.08,
