@@ -98,6 +98,9 @@
     const MES_ESPECIAL = 9; // ← Mes (1-12)
     const AÑO_ESPECIAL = 2026; // ← Año
 
+    // 🔧 Días secundarios (se muestran tachados, en un tono más claro):
+    const DIAS_TACHADOS = [13, 14];
+
     // ═══════════════════════════════════════════════════════════
 
     const NOMBRES_MESES = [
@@ -136,6 +139,10 @@
                     "aspect-square flex items-center justify-center rounded-md bg-gradient-to-br from-[#9a864a] to-[#7e6d3c] shadow-lg dia-cal";
                 diaDiv.id = "dia-especial-cal";
                 diaDiv.innerHTML = `<span class="font-crimson text-lg text-white font-bold">${dia}</span>`;
+            } else if (DIAS_TACHADOS.includes(dia)) {
+                diaDiv.className =
+                    "aspect-square flex items-center justify-center rounded-md bg-[#9a864a]/25 transition-all dia-cal dia-tachado-cal";
+                diaDiv.innerHTML = `<span class="font-crimson text-lg text-[#8a7740] font-bold">${dia}</span>`;
             } else {
                 diaDiv.className =
                     "aspect-square flex items-center justify-center rounded-md hover:bg-[#5E6B4A]/10 transition-all dia-cal";
@@ -201,6 +208,24 @@
         inset: -3px;
         border-radius: 0.4rem;
         border: 2px solid rgba(255, 255, 255, 0.3);
+        pointer-events: none;
+    }
+    /* Días secundarios: tachados en un tono más claro que la fecha principal */
+    .dia-tachado-cal {
+        position: relative;
+        border: 1.5px solid rgba(154, 134, 74, 0.55);
+        box-shadow: 0 3px 10px rgba(154, 134, 74, 0.18);
+    }
+    .dia-tachado-cal::after {
+        content: "";
+        position: absolute;
+        left: 12%;
+        right: 12%;
+        top: 50%;
+        height: 2px;
+        border-radius: 2px;
+        background: rgba(138, 119, 64, 0.85);
+        transform: translateY(-50%);
         pointer-events: none;
     }
     .font-cormorant-sc {
